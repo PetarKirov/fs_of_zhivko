@@ -22,11 +22,16 @@ FileSystem::FileSystem(std::string real_file_path, bool create_new_file)
 
 void FileSystem::create_empty_file_system(std::string real_file_path)
 {
-
+	auto file = std::fstream(real_file_path, std::ios::binary | std::ios::in | std::ios::out);
+	file.clear();
+	file.open(real_file_path, std::ios::out); //Create file.
+	file.close();
+	file.open(real_file_path, std::ios::binary | std::ios::in | std::ios::out);
 }
 
 void FileSystem::open_existring_file_system(std::string real_file_path)
 {
+	auto file = std::fstream(real_file_path, std::ios::binary | std::ios::in | std::ios::out);
 }
 
 static const std::string special_header = "zhivko";

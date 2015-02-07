@@ -28,6 +28,7 @@ int main(int argc, const char **argv)
 		if (AskUser("The file does not exist. Do you want to create a new file? (y/ne): "))
 		{
 			fs = FileSystem(real_path_to_file_system, true);
+			cout << "File opened successfully." << endl;
 		}
 		else
 		{
@@ -38,6 +39,7 @@ int main(int argc, const char **argv)
 	else
 	{
 		fs = FileSystem(real_path_to_file_system, false);
+		cout << "File opened successfully." << endl;
 	}
 
 	mainLoop();
