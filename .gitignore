@@ -26,3 +26,11 @@
 *.exe
 *.out
 *.app
+
+# VS Crap files
+*.sdf
+*.opensdf
+*.suo
+*.vcxproj.filters
+*.vcxproj.user
+Debug/
