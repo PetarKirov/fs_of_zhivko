@@ -10,23 +10,30 @@ FileSystem::FileSystem()
 	this->is_open_ = false;
 }
 
-FileSystem::FileSystem(std::string real_file_path, bool create_new_file)
-{	
-	if (create_new_file)
-		create_empty_file_system(real_file_path);
-	else
-		open_existring_file_system(real_file_path);	
+FileSystem::FileSystem(std::string real_file_path)
+{
+	open_existring_file_system(real_file_path);
 
 	this->is_open_ = true;
 }
 
-void FileSystem::create_empty_file_system(std::string real_file_path)
+FileSystem::FileSystem(std::string real_file_path, Len initial_size)
 {
-	auto file = std::fstream(real_file_path, std::ios::binary | std::ios::in | std::ios::out);
-	file.clear();
-	file.open(real_file_path, std::ios::out); //Create file.
-	file.close();
-	file.open(real_file_path, std::ios::binary | std::ios::in | std::ios::out);
+	this->create_empty_file_system(real_file_path, initial_size);
+}
+
+void FileSystem::create_empty_file_system(std::string real_file_path, Len initial_size)
+{
+	this->data_ = std::fstream(real_file_path, std::ios::binary | std::ios::in | std::ios::out);
+	this->data_.clear();
+	this->data_.open(real_file_path, std::ios::out); //Create file.
+	this->data_.close();
+	this->data_.open(real_file_path, std::ios::binary | std::ios::in | std::ios::out);
+
+	this->data_.seekp(0, std::ios_base::beg);
+	this->data_ << special_header;
+
+	this->data_.write((const char*)&this->super_block, sizeof this->super_block);
 }
 
 void FileSystem::open_existring_file_system(std::string real_file_path)
@@ -34,9 +41,7 @@ void FileSystem::open_existring_file_system(std::string real_file_path)
 	auto file = std::fstream(real_file_path, std::ios::binary | std::ios::in | std::ios::out);
 }
 
-static const std::string special_header = "zhivko";
-static const size_t special_header_len = 6;//special_header.size();
-static const size_t super_block_size = 4;
+
 
 // Returns true if file exists and the file begins with the special header and super block 
 bool FileSystem::IsValidFSFile(std::string real_file_path)

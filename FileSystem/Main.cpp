@@ -45,6 +45,8 @@ int main(int argc, const char **argv)
 	mainLoop();
 }
 
+
+
 bool AskUser(string msg)
 {
 	cout << msg;
