@@ -1,6 +1,6 @@
 #pragma once
 
-#include "Node.h"
+#include "structures.h"
 
 const Len block_size = 1024;
 const Len free_nodes_cache_size = 256;
@@ -55,7 +55,7 @@ struct SuperBlock
 		else
 		{
 			write(addr, cached_free_blocks, cached_free_blocks_count);
-			
+
 			cached_free_blocks[0] = addr;
 			cached_free_blocks_count = 0;
 		}

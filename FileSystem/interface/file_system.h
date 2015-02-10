@@ -3,7 +3,7 @@
 #include <string>
 #include <fstream>
 
-#include "SuperBlock.h"
+#include "../core/super_block.h"
 
 static const std::string special_header = "zhivko";
 static const size_t special_header_len = 6;//special_header.size();
@@ -39,7 +39,7 @@ public:
 	bool AddDirectory(std::string path, std::string name);
 	bool AddFile(std::string path, std::string name);
 
-	// Exports the whole 
+	// Exports the whole
 	bool Export(std::string real_path);
 	bool Import(std::string);
 };

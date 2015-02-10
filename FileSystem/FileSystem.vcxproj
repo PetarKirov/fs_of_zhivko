@@ -76,14 +76,12 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClCompile Include="file_system.cpp" />
-    <ClCompile Include="Main.cpp" />
-    <ClCompile Include="SuperBlock.cpp" />
-  </ItemGroup>
-  <ItemGroup>
-    <ClInclude Include="file_system.h" />
-    <ClInclude Include="Node.h" />
-    <ClInclude Include="SuperBlock.h" />
+    <ClCompile Include="app\app.cpp" />
+    <ClInclude Include="interface\file_system.h" />
+    <ClCompile Include="interface\file_system.cpp" />
+    <ClInclude Include="core\structures.h" />
+    <ClInclude Include="core\super_block.h" />
+    <ClInclude Include="core\super_block.h\cpp" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

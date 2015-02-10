@@ -1,4 +1,4 @@
-#include "SuperBlock.h"
+#include "super_block.h"
 
 void SuperBlock::write(Address addr, void * data, Len data_size_in_bytes)
 {
