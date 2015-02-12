@@ -3,7 +3,7 @@
 int wmain(int argc, const wchar_t **argv)
 {
 	String real_path_to_file_system;
-	FileSystem fs;
+	FileSystem* fs;
 	std::wstring tmp;
 
 	if (argc == 1)
@@ -24,7 +24,7 @@ int wmain(int argc, const wchar_t **argv)
 
 		if (ask_user(L"The file does not exist. Do you want to create a new file? (y/ne): "))
 		{
-			fs = FileSystem(real_path_to_file_system, nullptr);
+			fs = new FileSystem(real_path_to_file_system, nullptr);
 			std::wcout << L"File opened successfully." << std::endl;
 		}
 		else
@@ -35,9 +35,9 @@ int wmain(int argc, const wchar_t **argv)
 	}
 	else // the file is valid
 	{
-		fs = FileSystem(real_path_to_file_system, nullptr);
+		fs = new FileSystem(real_path_to_file_system, nullptr);
 		std::wcout << "File opened successfully." << std::endl;
 	}
 
-	main_loop(fs);
+	main_loop(*fs);
 }

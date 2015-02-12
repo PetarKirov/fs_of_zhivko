@@ -67,12 +67,12 @@ public:
 private:
 	void check()
 	{
-		fs_assert(!empty(), L"Access out of range!", __func__);
+		FS_ASSERT(!empty(), L"Access out of range!")
 	}
 
 	void check(size_t pos)
 	{
-		fs_assert(!empty() && pos < len_, L"Access out of range!", __func__);
+		FS_ASSERT(!empty() && pos < len_, L"Access out of range!")
 	}
 };
 

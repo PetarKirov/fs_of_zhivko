@@ -74,7 +74,7 @@ bool FileSystem::ImportDirectory(String source_path, String dest_path)
 	std::wcout
 		<< "source_path: `" << std::wstring(source_path.begin(), source_path.size()) << "`\n"
 		<< "dest_path: `" << std::wstring(dest_path.begin(), dest_path.size()) << "`\n";
-	fs_assert(false, L"Not Implemented:", __func__);
+	FS_ASSERT( false, L"Not Implemented:" )
 	return false;
 }
 
@@ -83,14 +83,14 @@ bool FileSystem::ExportDirectory(String source_path, String dest_path)
 	std::wcout
 		<< "source_path: `" << std::wstring(source_path.begin(), source_path.size()) << "`\n"
 		<< "dest_path: `" << std::wstring(dest_path.begin(), dest_path.size()) << "`\n";
-	fs_assert(false, L"Not Implemented:", __func__);
+	FS_ASSERT( false, L"Not Implemented:" )
 	return false;
 }
 
 bool FileSystem::RemoveDirectory(String path)
 {
 	std::wcout << "path: `" << std::wstring(path.begin(), path.size()) << "`\n";
-	fs_assert(false, L"Not Implemented:", __func__);
+	FS_ASSERT( false, L"Not Implemented:" )
 	return false;
 }
 
@@ -99,7 +99,7 @@ bool FileSystem::MoveDirectory(String source_path, String dest_path)
 	std::wcout
 		<< "source_path: `" << std::wstring(source_path.begin(), source_path.size()) << "`\n"
 		<< "dest_path: `" << std::wstring(dest_path.begin(), dest_path.size()) << "`\n";
-	fs_assert(false, L"Not Implemented:", __func__);
+	FS_ASSERT(false, L"Not Implemented:")
 	return false;
 }
 
@@ -108,21 +108,21 @@ bool FileSystem::CopyDirectory(String source_path, String dest_path)
 	std::wcout
 		<< "source_path: `" << std::wstring(source_path.begin(), source_path.size()) << "`\n"
 		<< "dest_path: `" << std::wstring(dest_path.begin(), dest_path.size()) << "`\n";
-	fs_assert(false, L"Not Implemented:", __func__);
+	FS_ASSERT(false, L"Not Implemented:")
 	return false;
 }
 
 bool FileSystem::DirectoryInfo(String path)
 {
 	std::wcout << "path: `" << std::wstring(path.begin(), path.size()) << "`\n";
-	fs_assert(false, L"Not Implemented:", __func__);
+	FS_ASSERT(false, L"Not Implemented:")
 	return false;
 }
 
 bool FileSystem::CreateDirectory(String path)
 {
 	std::wcout << "path: `" << std::wstring(path.begin(), path.size()) << "`\n";
-	fs_assert(false, L"Not Implemented:", __func__);
+	FS_ASSERT(false, L"Not Implemented:")
 	return false;
 }
 
@@ -131,7 +131,7 @@ bool FileSystem::CreateFile(String path, String data)
 	std::wcout
 		<< "path: `" << std::wstring(path.begin(), path.size()) << "`\n"
 		<< "data: `" << std::wstring(data.begin(), data.size()) << "`\n";
-	fs_assert(false, L"Not Implemented:", __func__);
+	FS_ASSERT(false, L"Not Implemented:")
 	return false;
 }
 
@@ -140,7 +140,7 @@ bool FileSystem::AppendToFile(String path, String data)
 	std::wcout
 		<< "path: `" << std::wstring(path.begin(), path.size()) << "`\n"
 		<< "data: `" << std::wstring(data.begin(), data.size()) << "`\n";
-	fs_assert(false, L"Not Implemented:", __func__);
+	FS_ASSERT(false, L"Not Implemented:")
 	return false;
 }
 
@@ -149,7 +149,7 @@ bool FileSystem::ImportFile(String source_path, String dest_path)
 	std::wcout
 		<< "source_path: `" << std::wstring(source_path.begin(), source_path.size()) << "`\n"
 		<< "dest_path: `" << std::wstring(dest_path.begin(), dest_path.size()) << "`\n";
-	fs_assert(false, L"Not Implemented:", __func__);
+	FS_ASSERT(false, L"Not Implemented:")
 	return false;
 }
 
@@ -158,14 +158,14 @@ bool FileSystem::ExportFile(String source_path, String dest_path)
 	std::wcout
 		<< "source_path: `" << std::wstring(source_path.begin(), source_path.size()) << "`\n"
 		<< "dest_path: `" << std::wstring(dest_path.begin(), dest_path.size()) << "`\n";
-	fs_assert(false, L"Not Implemented:", __func__);
+	FS_ASSERT(false, L"Not Implemented:")
 	return false;
 }
 
 bool FileSystem::RemoveFile(String path)
 {
 	std::wcout << "path: `" << std::wstring(path.begin(), path.size()) << "`\n";
-	fs_assert(false, L"Not Implemented:", __func__);
+	FS_ASSERT( false, L"Not Implemented:" )
 	return false;
 }
 
@@ -174,7 +174,7 @@ bool FileSystem::MoveFile(String source_path, String dest_path)
 	std::wcout
 		<< "source_path: `" << std::wstring(source_path.begin(), source_path.size()) << "`\n"
 		<< "dest_path: `" << std::wstring(dest_path.begin(), dest_path.size()) << "`\n";
-	fs_assert(false, L"Not Implemented:", __func__);
+	FS_ASSERT( false, L"Not Implemented:" )
 	return false;
 }
 
@@ -183,13 +183,13 @@ bool FileSystem::CopyFile(String source_path, String dest_path)
 	std::wcout
 		<< "source_path: `" << std::wstring(source_path.begin(), source_path.size()) << "`\n"
 		<< "dest_path: `" << std::wstring(dest_path.begin(), dest_path.size()) << "`\n";
-	fs_assert(false, L"Not Implemented:", __func__);
+	FS_ASSERT( false, L"Not Implemented:" )
 	return false;
 }
 
 bool FileSystem::FileInfo(String path)
 {
 	std::wcout << "path: `" << std::wstring(path.begin(), path.size()) << "`\n";
-	fs_assert(false, L"Not Implemented:", __func__);
+	FS_ASSERT( false, L"Not Implemented:" )
 	return false;
 }
