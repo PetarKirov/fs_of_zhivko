@@ -1,0 +1,57 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <Filter Include="app">
+      <UniqueIdentifier>{a420d78b-fea6-4fa7-9d6d-4fe1a70dc28a}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="core">
+      <UniqueIdentifier>{1871c27d-05eb-4862-97fe-72d0702779ae}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="interface">
+      <UniqueIdentifier>{e621fe4b-b002-49cc-9345-e30ae94695ee}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="common">
+      <UniqueIdentifier>{d76091b0-4ee9-470e-b12b-25b9266497c0}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="app\app.cpp">
+      <Filter>app</Filter>
+    </ClCompile>
+    <ClCompile Include="core\super_block.cpp">
+      <Filter>core</Filter>
+    </ClCompile>
+    <ClCompile Include="interface\file_system.cpp">
+      <Filter>interface</Filter>
+    </ClCompile>
+    <ClCompile Include="common\string_helpers.cpp">
+      <Filter>common</Filter>
+    </ClCompile>
+    <ClCompile Include="app\main.cpp">
+      <Filter>app</Filter>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="core\structures.h">
+      <Filter>core</Filter>
+    </ClInclude>
+    <ClInclude Include="core\super_block.h">
+      <Filter>core</Filter>
+    </ClInclude>
+    <ClInclude Include="interface\file_system.h">
+      <Filter>interface</Filter>
+    </ClInclude>
+    <ClInclude Include="common\assert.h">
+      <Filter>common</Filter>
+    </ClInclude>
+    <ClInclude Include="common\string_helpers.h">
+      <Filter>common</Filter>
+    </ClInclude>
+    <ClInclude Include="common\slice.h">
+      <Filter>common</Filter>
+    </ClInclude>
+    <ClInclude Include="app\app.h">
+      <Filter>app</Filter>
+    </ClInclude>
+  </ItemGroup>
+</Project>

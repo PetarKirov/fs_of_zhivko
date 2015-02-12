@@ -10,6 +10,22 @@
       <Platform>Win32</Platform>
     </ProjectConfiguration>
   </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="app\app.cpp" />
+    <ClCompile Include="app\main.cpp" />
+    <ClCompile Include="common\string_helpers.cpp" />
+    <ClCompile Include="core\super_block.cpp" />
+    <ClCompile Include="interface\file_system.cpp" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="app\app.h" />
+    <ClInclude Include="common\assert.h" />
+    <ClInclude Include="common\slice.h" />
+    <ClInclude Include="common\string_helpers.h" />
+    <ClInclude Include="core\structures.h" />
+    <ClInclude Include="core\super_block.h" />
+    <ClInclude Include="interface\file_system.h" />
+  </ItemGroup>
   <PropertyGroup Label="Globals">
     <ProjectGuid>{DB554AC5-3655-47CB-A106-F4B0FB3016BD}</ProjectGuid>
     <Keyword>Win32Proj</Keyword>
@@ -75,14 +91,6 @@
       <OptimizeReferences>true</OptimizeReferences>
     </Link>
   </ItemDefinitionGroup>
-  <ItemGroup>
-    <ClCompile Include="app\app.cpp" />
-    <ClInclude Include="interface\file_system.h" />
-    <ClCompile Include="interface\file_system.cpp" />
-    <ClInclude Include="core\structures.h" />
-    <ClInclude Include="core\super_block.h" />
-    <ClInclude Include="core\super_block.h\cpp" />
-  </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
   </ImportGroup>

@@ -70,7 +70,7 @@ struct SuperBlock
 
 	void write(void* in_memory_addr, void* data, Len data_size_in_bytes);
 
-	DirNode* get_parent(Node* node)
+	/*DirNode* get_parent(Node* node)
 	{
 		return (DirNode*)get(node->parent);
 	}
@@ -88,5 +88,5 @@ struct SuperBlock
 	void* get_data(FileNode* node)
 	{
 		return get(node->file_data);
-	}
+	}*/
 };

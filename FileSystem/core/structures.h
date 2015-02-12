@@ -1,21 +1,37 @@
 #pragma once
 
-const node_name_len = 256;
-const chunk_size = 8;
+const int node_name_len = 256;
+const int chunk_size = 8;
 
 using byte = unsigned char;
 using LenSmall = byte;
 using Len = unsigned long long;
 using Address = unsigned long long;
 
-struct ChunkPtr;
-struct BlobPtr;
-
 enum NodeType
 {
 	None,
 	File,
 	Dir
+};
+
+struct BlobPtr
+{
+	Address ptr;
+	Len blob_size;
+};
+
+// For singly-linked chunk lists
+struct ChunkPtr
+{
+	Address ptr;
+	LenSmall elem_count;
+};
+
+struct Chunk
+{
+	Address elems[chunk_size];
+	ChunkPtr next;
 };
 
 struct Node
@@ -40,21 +56,3 @@ struct Node
 	*/
 };
 
-struct BlobPtr
-{
-	Address ptr;
-	Len blob_size;
-};
-
-// For singly-linked chunk lists
-struct ChunkPtr
-{
-	Address ptr;
-	LenSmall elem_count;
-};
-
-struct Chunk
-{
-	Address elems[chunk_size];
-	ChunkPtr next;
-};
