@@ -30,6 +30,8 @@
     <ClCompile Include="app\main.cpp">
       <Filter>app</Filter>
     </ClCompile>
+    <ClCompile Include="core\io.cpp" />
+    <ClCompile Include="interface\path.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="core\structures.h">
@@ -52,6 +54,15 @@
     </ClInclude>
     <ClInclude Include="app\app.h">
       <Filter>app</Filter>
+    </ClInclude>
+    <ClInclude Include="core\io.h">
+      <Filter>core</Filter>
+    </ClInclude>
+    <ClInclude Include="common\type_def.h">
+      <Filter>common</Filter>
+    </ClInclude>
+    <ClInclude Include="interface\path.h">
+      <Filter>interface</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

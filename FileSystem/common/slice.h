@@ -1,6 +1,7 @@
 #pragma once
 
 #include "assert.h"
+#include "type_def.h"
 
 // Random access range
 template<class T>
@@ -76,6 +77,8 @@ private:
 		FS_ASSERT(!empty() && pos < len_, L"Access out of range!");
 	}
 };
+
+using RawData = Slice<const byte>;
 
 using CharType = wchar_t;
 using String = Slice<const CharType>;

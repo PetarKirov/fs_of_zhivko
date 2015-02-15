@@ -1,16 +1,12 @@
 #pragma once
 
-#include "../common/assert.h"
 #include "structures.h"
 
-#include <cstring>
-
-const Len block_size = 1024;
-const Len free_nodes_cache_size = 256;
-const Len free_blocks_cache_size = 256;
+// Used for offsetof() macro
+#include <cstddef>
 
 // The file system layout is:
-// zhivko{SuperBlock}{Nodes}{Data Blocks}
+// zhivko\0{SuperBlock}{Nodes}{Data Blocks}
 
 // sizeof(SuperBlock) = 
 //	5 * sizeof(Len)	+ free_nodes_cache_size * sizeof(Address)
@@ -18,114 +14,107 @@ const Len free_blocks_cache_size = 256;
 //		== 5 * 8 + (256 * 8) + (256 * 8)
 //		== 40 + 4096 = 4136
 
+const Len free_nodes_cache_size = 256;
+const Len free_blocks_cache_size = 256;
+
 struct SuperBlock
 {
+	char special_header[6];// = "zhivko";
+
 	Len block_size_in_bytes;
 	Len file_system_size_in_blocks;
 
-	Len cached_free_nodes_count;
-	Address cached_free_nodes[free_nodes_cache_size];
+	// cache the indexes of some free nodes
+	Len nodes_free_count;
+	NodeIndex nodes_free[free_nodes_cache_size];
 
-	Len cached_free_blocks_count;
-	Address cached_free_blocks[free_blocks_cache_size];
+	// cache the indexes of some free data blocks
+	Len blocks_free_count;
+	DataBlockIndex free_blocks[free_blocks_cache_size];
+
+	Len nodes_all_count;
+	Len data_blocks_all_count;
 
 	Len start_address;
 
-	SuperBlock()
-		: SuperBlock(0, 0) { }
+	SuperBlock() : SuperBlock(data_block_size_in_bytes) { }
 
-	SuperBlock(Len file_system_size, Len block_size_ = block_size)
+	SuperBlock(Len block_size_)
 	{
-		this->file_system_size_in_blocks = file_system_size;
+		special_header[0] = 'z';
+		special_header[1] = 'h';
+		special_header[2] = 'i';
+		special_header[3] = 'v';
+		special_header[4] = 'k';
+		special_header[5] = 'o';
+
 		this->block_size_in_bytes = block_size_;
 
-		this->cached_free_nodes_count = 0;
-		std::memset(cached_free_nodes, 0, sizeof(Address) * free_nodes_cache_size);
+		this->nodes_free_count = 0;
+		std::memset(nodes_free, 0, sizeof(NodeIndex) * free_nodes_cache_size);
 
-		this->cached_free_blocks_count = 0;
-		std::memset(cached_free_nodes, 0, sizeof(Address) * free_nodes_cache_size);
+		this->blocks_free_count = 0;
+		std::memset(free_blocks, 0, sizeof(DataBlockIndex) * free_blocks_cache_size);
+
+		this->start_address = sizeof(SuperBlock); // + alignment
 	}
 
-	bool is_free_blocks_cache_full()
+	// Converts a node index to an address in the whole file system.
+	// (The address can point inside the special header or the super block).
+	Address get_node_address(NodeIndex index)
 	{
-		return cached_free_blocks_count < free_blocks_cache_size;
+		FS_ASSERT(index < this->nodes_all_count, L"Node index out of range!");
+
+		return this->start_address + index * sizeof(Node);
 	}
 
-	bool is_free_blocks_cache_empty()
+	// Converts a data block index to an address in the whole file system.
+	// (The address can point inside the special header or the super block).
+	Address get_data_block_address(DataBlockIndex index)
 	{
-		return cached_free_blocks_count  == 0;
+		FS_ASSERT(index < this->data_blocks_all_count, L"Data block index out of range!");
+
+		return this->start_address +
+			nodes_all_count * sizeof(Node) + // skip the nodes
+			index * sizeof(DataBlock);
 	}
 
-	Address create_node(NodeType type)
+	// Get an address pointing to the beginning of the nodes_free cache.
+	Address get_nodes_free_cache_address()
 	{
-		auto node_address = allocate_node();
-
-		Node* node = new(get(node_address)) Node(type);
-
-		FS_ASSERT( node->type == type, L"Error in Constructor of Node!" );
-
-		return node_address;
+		return offsetof(SuperBlock, nodes_free);
 	}
 
-	Address allocate()
+	// Get an address pointing to the beginning of the data_blocks_free cache.
+	Address get_data_blocks_free_cache_address()
 	{
-		if (!is_free_blocks_cache_empty())
-		{
-			return cached_free_blocks[cached_free_blocks_count--];
-		}
-		else
-		{
-			write(cached_free_nodes, get(cached_free_blocks[0]), cached_free_nodes_count);
-		}
+		return offsetof(SuperBlock, blocks_free_count);
 	}
 
-	Address allocate_node()
-	{
-		return 123123;
-	}
+	// Can only be called when nodes_free cache is empty.
+	/*void fill_nodes_free_cache();
 
-	void free(Address addr)
-	{
-		if (!is_free_blocks_cache_full())
-		{
-			cached_free_blocks[++cached_free_blocks_count] = addr;
-		}
-		else
-		{
-			write(addr, cached_free_blocks, cached_free_blocks_count);
+	void write_node(NodeIndex idx, const Node* node);
 
-			cached_free_blocks[0] = addr;
-			cached_free_blocks_count = 0;
-		}
-	}
+	void read_node(NodeIndex idx, Node* node);
 
-	// Converts an address in the file to a pointer (address that we can go to).
-	void* get(Address offset)
-	{
-		return (void*)(this->start_address + offset);
-	}
+	void write_data_block(DataBlockIndex idx, const DataBlock* data_block);
 
-	void write(Address addr, void* data, Len data_size_in_bytes);
+	void read_data_block(DataBlockIndex idx, DataBlock* data_block);
 
-	void write(void* in_memory_addr, void* data, Len data_size_in_bytes);
+	NodeIndex allocate_node();
 
-	/*DirNode* get_parent(Node* node)
-	{
-		return (DirNode*)get(node->parent);
-	}
+	void free_node(NodeIndex idx);
 
-	FileList* get_files(DirNode* node)
-	{
-		return (FileList*)get(node->files);
-	}
+	DataBlockIndex allocate_data_block();
 
-	DirList* get_directories(DirNode* node)
-	{
-		return (DirList*)get(node->directories);
-	}
+	void create_root();
 
-	void* get_data(FileNode* node)
-	{
-		return get(node->file_data);
-	}*/
+	NodeIndex create_node(NodeIndex parent, String name, NodeType type, RawData data);
+
+	void add_child_node(NodeIndex parent, NodeIndex new_dir_idx, NodeType type);
+
+	void append_file_data(DataBlockIndex file_data_idx, RawData data);	
+
+	Len get_child_nodes_count(FileNode p);*/
 };

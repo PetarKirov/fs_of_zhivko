@@ -113,6 +113,9 @@ void print_help()
 	* statfile <path>
 	Displays information about a file.
 
+	* viewfile <path>
+	Views the file at <path>
+
 	----------------------------------------------------------------
 	The general syntax of the commands is:
 	`command <required_arg_1> .. <required_arg_N> (optional_arg_1) .. (optional_arg_N)`
@@ -221,7 +224,10 @@ void execute_command(String input, bool& is_quit, FileSystem& fs)
 
 		if (check_for_trailing_args(input)) return;
 
-		fs.CreateFile(path, data);
+		fs.CreateFile(path,
+			RawData{
+				(const byte*)data.begin(),
+				data.size() * sizeof(CharType) });
 	}
 
 	else if (eat_command(input, L"append"))
@@ -231,7 +237,10 @@ void execute_command(String input, bool& is_quit, FileSystem& fs)
 
 		if (check_for_trailing_args(input)) return;
 
-		fs.AppendToFile(path, data);
+		fs.AppendToFile(path,
+				RawData{
+					(const byte*)data.begin(),
+					data.size() * sizeof(CharType) });
 	}
 
 	else if (eat_command(input, L"import_file"))
@@ -290,6 +299,15 @@ void execute_command(String input, bool& is_quit, FileSystem& fs)
 		if (check_for_trailing_args(input)) return;
 
 		fs.FileInfo(path);
+	}
+
+	else if (eat_command(input, L"viewfile"))
+	{
+		auto path = eat_arg(input);
+
+		if (check_for_trailing_args(input)) return;
+
+		fs.ViewFile(path);
 	}
 
 	else

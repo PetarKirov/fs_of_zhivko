@@ -15,3 +15,5 @@ void skip_string_ref(String &str, const CharType *to_skip);
 
 bool starts_with(String haystack, const CharType* needle);
 bool starts_with(Slice<const char> haystack, const char* needle);
+
+void string_copy(CharType* dest, String source);

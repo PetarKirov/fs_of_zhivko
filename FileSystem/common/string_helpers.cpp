@@ -81,3 +81,9 @@ bool starts_with(Slice<const char> haystack, const char* needle)
 
 	return true;
 }
+
+void string_copy(CharType* dest, String source)
+{
+	for (size_t i = 0; i < source.size(); i++)
+		*dest = source[i];
+}

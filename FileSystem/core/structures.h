@@ -1,57 +1,110 @@
 #pragma once
 
+#include "../common/type_def.h"
+#include "../common/slice.h"
+
+const Len data_block_size_in_bytes = 1024;
 const int node_name_len = 256;
-const int chunk_size = 8;
 
-using byte = unsigned char;
-using LenSmall = byte;
-using Len = unsigned long long;
-using Address = unsigned long long;
-
-
+// File system layout
 // zhivko{SuperBlock}{Nodes}{Data Blocks}
+
+// ============== Data Block definition ====================
+
+const Len DataBlockFileCapacity = data_block_size_in_bytes - sizeof(DataBlockIndex);
+const Len DataBlockIndexesCapacity = DataBlockFileCapacity / sizeof(NodeIndex);
+
+struct FileChunk
+{
+	// Bytes used for file data in current data block
+	Len bytes_used;
+	byte raw_data[DataBlockFileCapacity];
+};
+
+struct NodeIndexesChunk
+{
+	// Count of node indexes in current data block
+	Len count;
+	NodeIndex elements[DataBlockIndexesCapacity];
+};
+
+// Singly-linked list
+struct DataBlock
+{
+	union
+	{
+		bool is_empty;
+		Len _unused; // for alignment only
+	};
+
+	union
+	{
+		FileChunk file_data;
+		NodeIndexesChunk node_indexes;
+	};
+
+	DataBlockIndex next; // the index of the next data block, if any
+
+	bool empty()
+	{
+		return is_empty;
+	}
+
+	RawData append_data(RawData data)
+	{
+		for (Len i = file_data.bytes_used;
+			i < DataBlockFileCapacity && !data.empty();
+				i++, data.pop_front())
+		{
+			this->file_data.raw_data[i] = data.front();
+		}
+
+		return data;
+	}
+};
+
+
+// ===================== Node definition =================
 
 enum NodeType
 {
-	None,
+	Empty,
 	File,
 	Dir
 };
 
-struct BlobPtr
+struct FileNodeInfo
 {
-	Address ptr;
-	Len blob_size;
+	DataBlockIndex file_data;
 };
 
-// For singly-linked chunk lists
-struct ChunkPtr
+struct DirNodeInfo
 {
-	Address ptr;
-	LenSmall elem_count;
-};
-
-struct Chunk
-{
-	Address elems[chunk_size];
-	ChunkPtr next;
+	DataBlockIndex files;
+	DataBlockIndex dirs;
 };
 
 struct Node
 {
-	Address parent;
-	ChunkPtr files;
-	ChunkPtr dirs;
-	BlobPtr file_data;
+	NodeIndex parent;
+
+	CharType name[node_name_len];
 
 	NodeType type;
 
-	char name[node_name_len];
+	// this->type indicates if file_info is used or dir_info
+	union
+	{
+		FileNodeInfo file_info;
+		DirNodeInfo dir_info;
+	};
 
 	Node(NodeType type_)
 	{
 		this->type = type_;
 	}
+
+	Node() = default;
 
 	/** 
 	*	If node.type == File => parent && !files && !dirs && maybe(file_data)
@@ -64,3 +117,5 @@ struct Node
 	*/
 };
 
+using DirNode = Node;
+using FileNode = Node;
