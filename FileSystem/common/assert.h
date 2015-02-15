@@ -26,7 +26,7 @@
 #define FUNCTION_NAME ""
 #endif
 
-#define FS_ASSERT( expr, msg ) fs_assert(expr, msg, FUNCTION_NAME);
+#define FS_ASSERT( expr, msg ) fs_assert(expr, msg, FUNCTION_NAME)
 
 
 inline void fs_assert(bool expr, std::wstring msg, const char* func)

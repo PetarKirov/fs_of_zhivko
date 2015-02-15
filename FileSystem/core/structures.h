@@ -8,6 +8,9 @@ using LenSmall = byte;
 using Len = unsigned long long;
 using Address = unsigned long long;
 
+
+// zhivko{SuperBlock}{Nodes}{Data Blocks}
+
 enum NodeType
 {
 	None,
@@ -44,6 +47,11 @@ struct Node
 	NodeType type;
 
 	char name[node_name_len];
+
+	Node(NodeType type_)
+	{
+		this->type = type_;
+	}
 
 	/** 
 	*	If node.type == File => parent && !files && !dirs && maybe(file_data)

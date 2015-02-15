@@ -47,6 +47,9 @@ String skip_string(String haystack, const CharType *to_skip)
 		to_skip++;
 	}
 
+	if (*to_skip)
+		return original;
+
 	return haystack;
 }
 
@@ -72,6 +75,9 @@ bool starts_with(Slice<const char> haystack, const char* needle)
 		haystack.pop_front();
 		needle++;
 	}
+
+	if (*needle)
+		return false;
 
 	return true;
 }

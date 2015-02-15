@@ -37,6 +37,7 @@ public:
 	bool empty() { return !begin_ || !len_; }
 	bool empty() const { return !begin_ || !len_; }
 
+	size_t size() const { return len_; }
 	size_t size() { return len_; }
 
 	void pop_front() { check(); begin_++; len_--;  }
@@ -67,18 +68,17 @@ public:
 private:
 	void check()
 	{
-		FS_ASSERT(!empty(), L"Access out of range!")
+		FS_ASSERT(!empty(), L"Access out of range!");
 	}
 
 	void check(size_t pos)
 	{
-		FS_ASSERT(!empty() && pos < len_, L"Access out of range!")
+		FS_ASSERT(!empty() && pos < len_, L"Access out of range!");
 	}
 };
 
 using CharType = wchar_t;
 using String = Slice<const CharType>;
-
 
 inline String make_str(const wchar_t* str)
 {

@@ -7,7 +7,6 @@
 
 static const Slice<const char> special_header = make_narrow_str("zhivko");
 static const size_t special_header_len = 6;//special_header.size();
-static const size_t super_block_size = 4;
 
 class FileSystem
 {
@@ -20,19 +19,16 @@ class FileSystem
 	SuperBlock super_block;
 
 public:
-	static bool IsValidFSFile(String real_file_path);
-
-	// Creates an empty un-initialized FS
-	FileSystem();
 
 	// Creates a NEW file system at the specified file path with the specified size
-	FileSystem(String real_file_path, Len initial_file_system_size_in_blocks = 1024);
+	FileSystem(String real_file_path, Len initial_file_system_size_in_blocks);
 
 	// Opens an EXISTING file system at the specified file path
-	FileSystem(String real_file_path, nullptr_t);
+	FileSystem(String real_file_path);
 
 	bool IsOpen();
 
+	static bool IsValidFSFile(String real_file_path);
 
 	// ========= Directory interface ==============
 	bool CreateDirectory(String path);

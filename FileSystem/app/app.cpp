@@ -154,8 +154,7 @@ void execute_command(String input, bool& is_quit, FileSystem& fs)
 		if (check_for_trailing_args(input)) return;
 
 		fs.CreateDirectory(path);
-	}
-	// FIXME: import_dir "E:\some dir" /r/place
+	}	
 	else if (eat_command(input, L"import_dir"))
 	{
 		auto source_path = eat_arg(input);
@@ -185,7 +184,6 @@ void execute_command(String input, bool& is_quit, FileSystem& fs)
 		fs.RemoveDirectory(path);
 	}
 
-	// FIXME: mvdir /urs/d "E:\some folder"
 	else if (eat_command(input, L"mvdir"))
 	{
 		auto source_path = eat_arg(input);
@@ -264,8 +262,7 @@ void execute_command(String input, bool& is_quit, FileSystem& fs)
 
 		fs.RemoveFile(path);
 	}
-
-	// FIXME: mvdir /urs/d "E:\some folder"
+	
 	else if (eat_command(input, L"mvfile"))
 	{
 		auto source_path = eat_arg(input);
@@ -304,16 +301,21 @@ void execute_command(String input, bool& is_quit, FileSystem& fs)
 	}
 }
 
+// Commands to test
+// import_dir "E:\some dir" /r/place
+// mvdir /urs/d "E:\some folder"
+// mvdir /urs/d "E:\some folder"
+
 bool eat_command(String &input, const CharType *command)
 {
 	// skip command
 	auto remaining = skip_string(input, command);
 
-	// skip whitespace
-	skip_space_ref(remaining);
-
 	if (remaining == input) // input does not contain command
 		return false;
+
+	// skip whitespace
+	skip_space_ref(remaining);
 
 	// assign to input the part after the command
 	input = remaining; 
@@ -328,7 +330,10 @@ String eat_arg(String &input)
 	auto rem = input; // remaining
 	bool in_quotes = input[0] == '\"';
 
-	size_t i = 1;
+	size_t i = 1; // skip the first character after we have already read it.
+	rem.pop_front();
+
+	// The loop ends when we hit whitespace outside of quotes (if any).
 	while (i < input.size() && (!space_in_front(rem) || in_quotes))
 	{
 		if (input[i] == '"' && input[i - 1] != '\\')
@@ -339,7 +344,9 @@ String eat_arg(String &input)
 	}
 
 	auto arg = input;
-	input = rem.slice(1, rem.size());
+	input = rem;
+
+	skip_space_ref(input);
 
 	if (arg[0] == '\"' && arg[i - 1] == '\"')
 		return arg.slice(1, i - 1);
